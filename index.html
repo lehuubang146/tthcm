@@ -72,14 +72,19 @@
               <h1 class="text-sm sm:text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
                 Tư Tưởng Hồ Chí Minh
               </h1>
-              <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">57 Câu Giữa Kỳ</span>
+              <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">57 Câu Giữa Kỳ</span>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400 hidden lg:block">Dữ liệu đối chiếu 100% ảnh chụp gốc • Giữ nguyên số lượng đáp án chuẩn</p>
           </div>
         </div>
 
-        <!-- Mobile Quick Actions: Theme & Reset (hidden on md+) -->
+        <!-- Mobile Quick Actions: Search, Theme & Reset (hidden on md+) -->
         <div class="flex items-center space-x-1 md:hidden shrink-0">
+          <button onclick="openSearchModal()" aria-label="Tra cứu câu hỏi & đáp án" title="Tra cứu nhanh (Ctrl + K)" class="p-1.5 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
           <button onclick="toggleDarkMode()" aria-label="Đổi giao diện" class="p-1.5 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
             <svg class="theme-icon-dark w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -137,6 +142,15 @@
           <span id="timer-display">45:00</span>
         </div>
 
+        <!-- Desktop Search Button (hidden on mobile, visible on md+) -->
+        <button onclick="openSearchModal()" title="Tra cứu nhanh câu hỏi & đáp án (Ctrl + K)" class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-700 text-xs font-medium">
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span>Tra cứu</span>
+          <kbd class="text-[10px] px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500 font-mono">Ctrl K</kbd>
+        </button>
+
         <!-- Desktop Theme Toggle (hidden on mobile, visible on md+) -->
         <button onclick="toggleDarkMode()" aria-label="Đổi giao diện" class="hidden md:flex p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
           <svg class="theme-icon-dark w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -186,13 +200,25 @@
           </button>
         </div>
 
-        <!-- Quick Summary Stats (Monochrome Minimalist) -->
-        <div class="flex items-center justify-between sm:justify-end gap-3 text-xs text-slate-500 dark:text-slate-400 font-medium pt-2 sm:pt-0 border-t border-slate-100 dark:border-slate-800 sm:border-t-0 shrink-0">
-          <span>Đúng: <strong id="stat-correct" class="text-slate-900 dark:text-white">0</strong></span>
-          <span class="text-slate-300 dark:text-slate-700">•</span>
-          <span>Sai: <strong id="stat-wrong" class="text-slate-900 dark:text-white">0</strong></span>
-          <span class="text-slate-300 dark:text-slate-700">•</span>
-          <span>Tiến độ: <strong id="stat-progress" class="text-slate-900 dark:text-white">0%</strong></span>
+        <!-- Quick Summary Stats & Search Trigger (Monochrome Minimalist) -->
+        <div class="flex items-center justify-between gap-2 sm:gap-3 text-xs text-slate-500 dark:text-slate-400 font-medium pt-2 sm:pt-0 border-t border-slate-100 dark:border-slate-800 sm:border-t-0 w-full sm:w-auto">
+          <!-- Compact Search Button: "Tra cứu" on Mobile, "Tra cứu đáp án" on Desktop -->
+          <button onclick="openSearchModal()" title="Tra cứu nhanh câu hỏi & đáp án (Ctrl + K)" class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors whitespace-nowrap shrink-0 text-xs font-medium">
+            <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span class="inline sm:hidden">Tra cứu</span>
+            <span class="hidden sm:inline">Tra cứu đáp án</span>
+          </button>
+
+          <!-- Stats: compact and whitespace-nowrap -->
+          <div class="flex items-center gap-1.5 sm:gap-3 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap shrink-0">
+            <span>Đúng: <strong id="stat-correct" class="text-slate-900 dark:text-white">0</strong></span>
+            <span class="text-slate-300 dark:text-slate-700">•</span>
+            <span>Sai: <strong id="stat-wrong" class="text-slate-900 dark:text-white">0</strong></span>
+            <span class="text-slate-300 dark:text-slate-700">•</span>
+            <span>Tiến độ: <strong id="stat-progress" class="text-slate-900 dark:text-white">0%</strong></span>
+          </div>
         </div>
       </div>
 
@@ -486,6 +512,65 @@
     </div>
   </div>
 
+  <!-- Quick Search Modal (Full-screen on Mobile / Centered Spotlight on Desktop - Monochrome) -->
+  <div id="search-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start justify-center sm:pt-14 p-0 sm:p-4" onclick="if(event.target === this) closeSearchModal()">
+    <div class="w-full h-full sm:h-auto sm:max-h-[85vh] sm:max-w-2xl bg-white dark:bg-slate-900 sm:rounded-3xl border-0 sm:border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-scale-in">
+      
+      <!-- Search Input Sticky Top Header -->
+      <div class="p-3 sm:p-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 bg-white dark:bg-slate-900 shrink-0">
+        <!-- Monochrome Search SVG -->
+        <svg class="w-5 h-5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        
+        <!-- Input field: text-base to prevent auto-zoom on iOS Safari -->
+        <input 
+          id="search-input" 
+          type="text" 
+          placeholder="Tìm từ khóa câu hỏi hoặc đáp án..." 
+          class="flex-1 bg-transparent text-base text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
+          oninput="handleSearchInput(this.value)"
+          autocomplete="off"
+        >
+
+        <!-- Clear input button -->
+        <button id="search-clear-btn" onclick="clearSearchInput()" class="hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 shrink-0" title="Xóa nội dung tìm kiếm">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Close Modal button -->
+        <button onclick="closeSearchModal()" class="px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+          Đóng (ESC)
+        </button>
+      </div>
+
+      <!-- Quick status indicator bar -->
+      <div class="px-4 py-2 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 shrink-0">
+        <span id="search-count-label">57 câu hỏi • Gõ từ khóa để tra cứu đáp án</span>
+        <span class="hidden sm:inline font-mono text-[11px]">Nhấn ESC để thoát</span>
+      </div>
+
+      <!-- Search Results List Container -->
+      <div id="search-results-list" class="flex-1 overflow-y-auto p-3 sm:p-5 space-y-3 sm:space-y-4">
+        <!-- Dynamically rendered items -->
+      </div>
+
+      <!-- Empty State inside Search -->
+      <div id="search-empty-state" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center space-y-2">
+        <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-1">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">Không tìm thấy câu hỏi nào</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 max-w-xs">Hãy thử từ khóa ngắn hơn hoặc gõ không dấu (ví dụ: unesco, 1969, dao duc...).</p>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Embedded Quiz Data & Core Script -->
   <script>
     const QUESTIONS_DATA = [{"id": 1, "image": "Screenshot_20260924_194351.jpg", "question": "Tổ chức Giáo dục, Khoa học và Văn hoá của Liên hợp quốc (UNESCO) năm 1987 đã ghi nhận và suy tôn Hồ Chí Minh là:", "options": ["Anh hùng giải phóng dân tộc và Nhà văn hoá lớn của Việt Nam", "Anh hùng giải phóng dân tộc và Nhà văn hoá kiệt xuất của thế giới", "Anh hùng giải phóng dân tộc và Nhà văn hoá kiệt xuất của Việt Nam"], "correctIndex": 2, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 2, "image": "Screenshot_20260924_194404.jpg", "question": "Hãy điền vào chỗ trống: “Tư tưởng Hồ Chí Minh là … là kết quả của sự vận dụng và phát triển sáng tạo chủ nghĩa Mác-Lênin vào điều kiện cụ thể của nước ta, kế thừa và phát triển các giá trị truyền thống tốt đẹp của dân tộc, tiếp thu tinh hoa văn hoá nhân loại; là tài sản tinh thần vô cùng to lớn và quý giá của Đảng và dân tộc ta, mãi mãi soi đường cho sự nghiệp cách mạng của nhân dân ta giành thắng lợi”.", "options": ["một hệ thống quan điểm toàn diện và sâu sắc về những vấn đề cơ bản của CM VN,", "một hệ thống quan điểm về vấn đề cơ bản của CM VN,", "một sự phản ánh khách quan, toàn diện về CM VN,"], "correctIndex": 0, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 3, "image": "Screenshot_20260924_194407.jpg", "question": "Năm 1969, Đảng ta phát động học tập và làm theo ...", "options": ["tấm gương đạo đức HCM", "Di chúc Chủ tịch Tôn Đức Thắng", "Di chúc Chủ tịch HCM"], "correctIndex": 2, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 4, "image": "Screenshot_20260924_194411.jpg", "question": "Tư tưởng Hồ Chí Minh là:", "options": ["Hệ thống quan điểm toàn diện về những vấn đề cơ bản của cách mạng Việt Nam", "Hệ thống quan điểm toàn diện và sâu sắc về những vấn đề cơ bản của cách mạng Việt Nam", "Hệ thống quan điểm về những vấn đề cơ bản của cách mạng Việt Nam"], "correctIndex": 1, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 5, "image": "Screenshot_20260924_194413.jpg", "question": "Có bao nhiêu phương pháp luận của việc nghiên cứu tư tưởng Hồ Chí Minh ?", "options": ["2", "3", "4", "5"], "correctIndex": 3, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 6, "image": "Screenshot_20260924_194417.jpg", "question": "Tư tưởng Hồ Chí Minh là sản phẩm của sự vận dụng sáng tạo chủ nghĩa Mác - Lênin vào thực tiễn Việt Nam, đòi hỏi không chỉ biết kế thừa mà còn phát triển sáng tạo những nguyên lý đó trong hoàn cảnh mới. Đây là phương pháp luận nào NC TTHCM?", "options": ["Thống nhất lý luận và thực tiễn", "Quan điểm lịch sử - cụ thể", "Quan điểm kế thừa và phát triển"], "correctIndex": 2, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 7, "image": "Screenshot_20260924_194420.jpg", "question": "Có mấy ý nghĩa của việc học tập môn học tư tưởng Hồ Chí Minh", "options": ["3", "4", "5", "6"], "correctIndex": 0, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 8, "image": "Screenshot_20260924_194423.jpg", "question": "Đảng ta phát động học tập và làm theo Di chúc Chủ tịch Hồ Chí Minh năm nào?", "options": ["1969", "1965", "1961"], "correctIndex": 0, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 9, "image": "Screenshot_20260924_194425.jpg", "question": "Đại hội XIII xủa Đảng (2021) khẳng định quan điểm chỉ đạo là:", "options": ["“Kiên định và vận dụng phát triển sáng tạo chủ nghĩa Mác-Lênin”", "“Kiên định và vận dụng phát triển sáng tạo chủ nghĩa Mác-Lênin, tư tưởng Hồ Chí Minh”", "“Phát huy và vận dụng phát triển sáng tạo chủ nghĩa Mác-Lênin, tư tưởng Hồ Chí Minh”", "“Kiên định và học tập theo tư tưởng Hồ Chí Minh”"], "correctIndex": 1, "topic": "Chương 1: Khái niệm & Phương pháp luận"}, {"id": 10, "image": "Screenshot_20261008_201621.jpg", "question": "“Đức Phật là đại từ đại bi, cứu khổ cứu nạn, muốn cứu chúng sinh ra khỏi khổ cực thì phải ra sức ngăn chặn kẻ độc ác, làm lành tích đức”. Đoạn trích này được Hồ Chí Minh viết trong văn bản nào?", "options": ["Thư gửi đồng bào Phật tử", "Thư gửi hội Phật tử", "Thư gửi đồng bào Phật tử miền Nam"], "correctIndex": 1, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 11, "image": "Screenshot_20261008_201625.jpg", "question": "Trước ảnh hưởng của các cuộc vận động cải cách văn hóa phương Tây, ở Việt Nam xuất hiện các phong trào yêu nước theo...", "options": ["khuynh hướng xã hội chủ nghĩa", "phong kiến", "khuynh hướng dân chủ tư sản"], "correctIndex": 2, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 12, "image": "Screenshot_20261008_201628.jpg", "question": "Phong trào Duy Tân do ai khởi xướng?", "options": ["Lương Văn Can", "Phan Bội Châu", "Phan Châu Trinh"], "correctIndex": 2, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 13, "image": "Screenshot_20261008_201630.jpg", "question": "”Bao giờ Tây nhổ hết cỏ nước Nam mới hết người Nam đánh Tây” Câu nói này của ai?", "options": ["Nguyễn Trung Trực", "Nguyễn Ái Quốc", "Hồ Chí Minh"], "correctIndex": 0, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 14, "image": "Screenshot_20261008_201633.jpg", "question": "Có mấy cơ sở lý luận hình thành tư tưởng Hồ Chí Minh?", "options": ["3", "4", "5"], "correctIndex": 0, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 15, "image": "Screenshot_20261008_201636.jpg", "question": "Giá trị tư tưởng Hồ Chí Minh đối với cách mạng Việt Nam là....", "options": ["là nền tảng tư tưởng và kim chỉ nam cho cách mạng Việt Nam trong thời chống phong kiến", "đưa cách mạng giải phóng dân tộc Việt Nam đến thắng lợi và bắt đầu xây dựng một xã hội mới trên đất nước ta.", "là nền tảng tư tưởng và kim chỉ nam cho mọi hành động"], "correctIndex": 1, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 16, "image": "Screenshot_20261008_201639.jpg", "question": "Hồ Chí Minh từng nhận định: ”Học thuyết... có ưu điểm là sự tu dưỡng đạo đức cá nhân. Tôn giáo... có ưu điểm là lòng nhân ái cao cả. Chủ nghĩa... có ưu điểm là phương pháp làm việc biện chứng”. ANH (chị) hãy điền...", "options": ["Mác - Khổng Tử - Tôn Dật Tiên", "Giêsu - Khổng Tử - Mác", "Khổng Tử - Giêsu - Mác"], "correctIndex": 2, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 17, "image": "Screenshot_20261008_201642.jpg", "question": "Phong trào Đông Du là do ai khởi xướng?", "options": ["Phan Bội Châu", "Phan Châu Trinh", "Vua Hàm Nghi"], "correctIndex": 0, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 18, "image": "Screenshot_20261008_201644.jpg", "question": "12/1920, tại Đại hội Tua của Đảng Xã hội Pháp, Người đã....", "options": ["tham gia quốc tế cộng sản", "tham gia sáng lập Đảng Cộng sản Pháp.", "Ra báo người cùng khổ"], "correctIndex": 1, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 19, "image": "Screenshot_20261008_201647.jpg", "question": "Đối với sự phát triển tiến bộ của nhân loại Tư tưởng Hồ Chí Minh", "options": ["góp phần mở ra cho các dân tộc thuộc địa con đường giải phóng dân tộc gắn với sự tiến bộ xã hội", "góp phần mở ra cho các dân tộc thuộc địa con đường giải phóng dân tộc và ngày càng phát triển", "góp phần mở ra cho các dân tộc thuộc địa con đường giải phóng dân tộc chống thực dân xâm lược"], "correctIndex": 0, "topic": "Chương 2: Cơ sở hình thành TTHCM"}, {"id": 20, "image": "Screenshot_20261022_190844.jpg", "question": "Chủ tịch Hồ Chí Minh từng khẳng định: “Tôi chỉ có một ham muốn, ham muốn tột bậc, là làm sao cho nước ta hoàn toàn......., dân ta được hoàn toàn tự do...”. Điền vào...", "options": ["sạch bóng quân thù", "giải phóng", "tự do", "độc lập"], "correctIndex": 3, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 21, "image": "Screenshot_20261022_190847.jpg", "question": "“Cần có sự lãnh đạo của một đảng cách mạng chân chính của giai cấp công nhân, toàn tâm toàn ý phục vụ nhân dân. Chỉ có sự lãnh đạo của một đảng biết vận dụng một cách sáng tạo chủ nghĩa Mác - Lênin vào điều kiện cụ thể của nước mình thì mới có thể đưa ..............và CM XHCN đến thành công”... Điền vào chỗ trống:", "options": ["CM vô sản", "CM bạo lực vũ trang", "CM GPDT"], "correctIndex": 2, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 22, "image": "Screenshot_20261022_190858.jpg", "question": "Theo Hồ Chí Minh “Cách mệnh trước hết phải có gì?... Đảng có vững cách mệnh mới thành công, cũng như ............... có vững thuyền mới chạy”.", "options": ["người cầm lái", "thuyền trưởng", "người chỉ huy", "người lái đò"], "correctIndex": 0, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 23, "image": "Screenshot_20261022_190900.jpg", "question": "Theo Hồ Chí Minh, cách mạng giải phóng dân tộc muốn thắng lợi phải đi theo con đường nào?", "options": ["Cách mạng dân chủ tư sản", "cách mạng tư sản", "cách mạng vô sản", "cải cách đất nước"], "correctIndex": 2, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 24, "image": "Screenshot_20261022_190904.jpg", "question": "Theo Hồ Chí Minh, một trong số các nguyên tắc xây dựng chủ nghĩa xã hội trong thời kỳ quá độ là....", "options": ["Lấy dân làm gốc", "Tập trung dân chủ là tiêu chí tiên quyết", "Mọi tư tưởng và hành động phải thực hiện trên nền tảng chủ nghĩa Mác - Lê nin"], "correctIndex": 2, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 25, "image": "Screenshot_20261022_190906.jpg", "question": "Theo Hồ Chí Minh, độc lập dân tộc là:", "options": ["cơ sở của chủ nghĩa xã hội", "thành quả của chủ nghĩa xã hội", "điều kiện để đi lên chủ nghĩa xã hội", "quy luật tất yếu để xây dựng chủ nghĩa xã hội"], "correctIndex": 2, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 26, "image": "Screenshot_20261022_190910.jpg", "question": "“Đồng bào Nam bộ là dân nước Việt Nam. Sông có thể cạn, núi có thể mòn, song chân lý đó không bao giờ thay đổi”. Câu nói này của Hồ Chí Minh được thể hiện trong tác phẩm nào...?", "options": ["Di chúc", "Thư gửi đồng bào Nam bộ 1946", "Tuyên ngôn độc lập 1945", "Nhật ký trong tù"], "correctIndex": 1, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 27, "image": "Screenshot_20261022_190912.jpg", "question": "Theo Hồ Chí Minh, muốn xây dựng chủ nghĩa xã hội trước hết cần có", "options": ["Kinh tế phát triển", "Con người xã hội chủ nghĩa", "Sự giúp đỡ của quốc tế"], "correctIndex": 1, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 28, "image": "Screenshot_20261022_190915.jpg", "question": "Theo Hồ Chí Minh, chủ nghĩa xã hội là", "options": ["điều kiện để đảm bảo nền độc lập dân tộc vững chắc", "mục tiêu trước mắt để có độc lập dân tộc", "thành quả của độc lập dân tộc"], "correctIndex": 0, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 29, "image": "Screenshot_20261022_190917.jpg", "question": "Theo Hồ Chí Minh, độc lập dân tộc là", "options": ["cơ sở, tiền đề để tiến lên của chủ nghĩa xã hội", "thành quả của chủ nghĩa xã hội", "điều kiện để đi lên chủ nghĩa xã hội"], "correctIndex": 0, "topic": "Chương 3: Độc lập dân tộc & CNXH"}, {"id": 30, "image": "Screenshot_20261022_201358.jpg", "question": "Chọn đáp án đúng điền vào dấu “...” theo thứ tự trong lời dạy của Chủ tịch Hồ Chí Minh: “Đạo đức cách mạng không phải trên trời sa xuống. Nó do đấu tranh, rèn luyện bền bỉ hàng ngày mà phát triển và củng cố. Cũng như ... càng mài càng sáng, ... càng luyện càng trong”.", "options": ["“vàng” và “ngọc”.", "“đá” và “vàng”.", "“ngọc” và “vàng”."], "correctIndex": 2, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 31, "image": "Screenshot_20261022_201401.jpg", "question": "Tác phẩm nào dưới đây tập hợp những bài giảng của Nguyễn Ái Quốc tại các lớp huấn luyện đào tạo cán bộ cách mạng ở Quảng Châu (Trung Quốc)?", "options": ["Đường Kách mệnh.", "Bản án chế độ thực dân Pháp.", "Nhật kí trong tù"], "correctIndex": 0, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 32, "image": "Screenshot_20261022_201403.jpg", "question": "Hồ Chí Minh dạy: Đảng viên phải “lo trước..., vui sau...”. Chọn đáp án đúng điền vào dấu “...”.", "options": ["Thiên hạ/ thiên hạ.", "Nhân dân/ Nhân dân", "thiên hạ/ Nhân dân"], "correctIndex": 0, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 33, "image": "Screenshot_20261022_201406.jpg", "question": "Hội Việt Nam Cách mạng thanh niên là tổ chức cách mạng đi theo khuynh hướng nào?", "options": ["Vô sản.", "Cải lương", "Dân chủ tư sản"], "correctIndex": 0, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 34, "image": "Screenshot_20261022_201409.jpg", "question": "Mâu thuẫn cơ bản nhất của xã hội Việt Nam sau Chiến tranh thế giới thứ nhất là gì?", "options": ["Mâu thuẫn giữa giai cấp tư sản với chính quyền thực dân Pháp.", "Mâu thuẫn giữa toàn thể dân tộc Việt Nam với thực dân Pháp.", "Mâu thuẫn giữa giai cấp công nhân với thực dân Pháp và giai cấp tư sản."], "correctIndex": 1, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 35, "image": "Screenshot_20261022_201411.jpg", "question": "Sự kiện nào sau đây có ảnh hưởng tích cực đến phong trào cách mạng Việt Nam trong những năm 1919-1925?", "options": ["Cách mạng tháng Mười Nga 1917.", "Phong trào yêu nước của kiều bào phát triển mạnh.", "Chiến tranh thế giới thứ nhất kết thúc."], "correctIndex": 0, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 36, "image": "Screenshot_20261022_201414.jpg", "question": "Đảng Cộng sản Việt Nam xác định: “Cùng với chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh là nền tảng tư tưởng, kim chỉ nam cho hành động cách mạng” trong nhiệm kỳ Đại hội nào?", "options": ["Nhiệm kỳ Đại hội VI.", "Nhiệm kỳ Đại hội VII.", "Nhiệm kỳ Đại hội VIII."], "correctIndex": 1, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 37, "image": "Screenshot_20261022_201416.jpg", "question": "Vai trò nào của Nguyễn Ái Quốc được xem là tiền đề tư tưởng quan trọng nhất cho sự ra đời của Đảng Cộng sản Việt Nam?", "options": ["Thành lập Hội Việt Nam Cách mạng Thanh niên.", "Truyền bá chủ nghĩa Mác – Lênin vào Việt Nam.", "Thành lập Công hội đỏ."], "correctIndex": 1, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 38, "image": "Screenshot_20261022_201419.jpg", "question": "Nhận định nào phản ánh đầy đủ nhất vai trò của Nguyễn Ái Quốc đối với sự ra đời của Đảng Cộng sản Việt Nam?", "options": ["Người chỉ là đại diện của Quốc tế Cộng sản tại Đông Dương.", "Người là người triệu tập hội nghị thành lập Đảng.", "Người chuẩn bị về chính trị, tư tưởng, tổ chức và trực tiếp chủ trì việc thành lập Đảng."], "correctIndex": 2, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 39, "image": "Screenshot_20261022_201422.jpg", "question": "Điểm khác biệt cơ bản giữa Nguyễn Ái Quốc với các nhà yêu nước tiền bối khi tìm đường cứu nước là:", "options": ["Chủ trương dựa vào các nước phương Tây.", "Xác định con đường cách mạng vô sản là con đường giải phóng dân tộc.", "Chỉ chú trọng đấu tranh vũ trang."], "correctIndex": 1, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 40, "image": "Screenshot_20261022_201425.jpg", "question": "Sự kiện nào đánh dấu Nguyễn Ái Quốc bước đầu tìm thấy con đường cứu nước đúng đắn?", "options": ["Đọc Sơ thảo luận cương của Lênin về vấn đề dân tộc và thuộc địa.", "Tham dự đại hội Tua và tham gia sáng lập đảng xã hội Pháp.", "Gửi yêu sách tám điểm đến Hội nghị vecxai."], "correctIndex": 0, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 41, "image": "Screenshot_20261022_201428.jpg", "question": "Hồ Chí Minh khẳng định hệ thống lý luận cách mạng của chủ nghĩa Mác - Lênin là:", "options": ["Bửu bối thần kỳ", "Bửu bối diệu kỳ", "Cẩm nang thần kỳ"], "correctIndex": 2, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 42, "image": "Screenshot_20261022_201430.jpg", "question": "Chọn cụm từ đúng điền vào chỗ trống: Trong Cương lĩnh chính trị đầu tiên của Đảng do Nguyễn Ái Quốc soạn thảo đã xác định phương hướng chiến lược là: “làm tư sản dân quyền cách mạng và thổ địa cách mạng để đi tới ….", "options": ["Chủ nghĩa tư bản", "Chủ nghĩa tư bản", "Xã hội Cộng sản"], "correctIndex": 2, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 43, "image": "Screenshot_20261022_201433.jpg", "question": "Hội Việt Nam cách mạng thanh niên được xem là", "options": ["tổ chức chính trị của giai cấp tiểu tư sản.", "tổ chức tiền thân của Đảng Cộng sản Việt Nam.", "tổ chức cách mạng theo khuynh hướng dân chủ tư sản."], "correctIndex": 1, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 44, "image": "Screenshot_20261022_201436.jpg", "question": "Năm 1919, Nguyễn Ái Quốc gửi đến Hội nghị Vécxai Bản yêu sách của nhân dân An Nam đòi Chính phủ Pháp thừa nhận quyền", "options": ["Tự do", "Độc lập", "Dân chủ"], "correctIndex": 0, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 45, "image": "Screenshot_20261022_201439.jpg", "question": "Cơ quan ngôn luận của Hội Việt Nam Cách mạng thanh niên là tờ báo nào?", "options": ["Nhân dân", "Nhành lúa", "Thanh niên"], "correctIndex": 2, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 46, "image": "Screenshot_20261022_201442.jpg", "question": "Chọn đáp án đúng điền vào dấu “...” trong Di chúc của Chủ tịch Hồ Chí Minh: “việc cần phải làm trước tiên là ..., làm cho mỗi đảng viên, mỗi đoàn viên, mỗi chi bộ đều ra sức làm tròn nhiệm vụ đảng giao phó cho mình, toàn tâm toàn ý phục vụ nhân dân”.", "options": ["xây dựng lại Đảng.", "chỉnh đốn lại Đảng.", "xây dựng và chỉnh đốn lại Đảng."], "correctIndex": 1, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 47, "image": "Screenshot_20261022_201444.jpg", "question": "Nếu không có sự chủ trì của Nguyễn Ái Quốc tại Hội nghị hợp nhất các tổ chức cộng sản đầu năm 1930, nguy cơ lớn nhất đối với phong trào cách mạng Việt Nam lúc đó là gì?", "options": ["Không có giai cấp công nhân Việt Nam.", "Phong trào dân tộc hoàn toàn chấm dứt.", "Tình trạng chia rẽ giữa các tổ chức cộng sản tiếp tục kéo dài."], "correctIndex": 2, "topic": "Chương 4: Đảng & Đạo đức cách mạng"}, {"id": 48, "image": "Screenshot_20261022_201955.jpg", "question": "Vận dụng một trong những tư tưởng Hồ Chí Minh về công tác xây dựng Đảng trong sạch vững mạng cần phải làm gì?", "options": ["Phải đề ra đường lối chủ trương cho Nhà nước", "Phải tổ chức thực hiện tốt đường lối, chủ trương của Đảng", "Phải chú trọng hơn nữa công tác cán bộ", "Tuân thủ quy định của pháp luật"], "correctIndex": 1, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 49, "image": "Screenshot_20261022_201959.jpg", "question": "Nhà nước của dân theo tư tưởng Hồ Chí Minh nghĩa là:", "options": ["Chăm lo mọi mặt đời sống của nhân dân", "Mọi quyền lực nhà nước và trong xã hội đều thuộc về nhân dân", "Mọi công việc nhà nước đều do dân quyết định"], "correctIndex": 1, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 50, "image": "Screenshot_20261022_202001.jpg", "question": "Điểm đặc sắc nhất trong tư tưởng Hồ Chí Minh về Nhà nước pháp quyền là gì?", "options": ["Bảo đảm tính nghiêm minh của pháp luật.", "Coi trọng luật pháp trong quản lý xã hội.", "Đề cao đạo đức trong quản lý xã hội.", "Kết hợp pháp luật và đạo đức."], "correctIndex": 3, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 51, "image": "Screenshot_20261022_202005.jpg", "question": "«Kẻ địch bên trong là.................... của kẻ địch bên ngoài. Địch bên ngoài không đáng sợ. Địch bên trong đáng sợ hơn, vì nó phá hoại từ trong phá ra». Hãy hoàn thiện quan điểm trên của chủ tịch Hồ Chí Minh.", "options": ["một bạn thân", "một bạn đồng minh", "một người thân thiết", "một người thân cận"], "correctIndex": 1, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 52, "image": "Screenshot_20261022_202007.jpg", "question": "“Dân là chủ” trong nhà nước của dân theo quan niệm Hồ Chí Minh được xác định:", "options": ["Địa vị, vị thế của người dân", "Năng lực, trách nhiệm của người dân.", "Mang lại lợi ích cho dân"], "correctIndex": 0, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 53, "image": "Screenshot_20261022_202010.jpg", "question": "Luận điểm: \"Đảng muốn vững thì phải có chủ nghĩa làm cốt,... Đảng mà không có chủ nghĩa cũng như người không có trí khôn, tàu không có bản chỉ nam” được trích từ tác phẩm nào của Nguyễn Ái Quốc?", "options": ["Tuyên ngôn độc lập", "Đường Kách mệnh.", "Điều lệ vắn tắt của Đảng.", "Thường thức chính trị."], "correctIndex": 1, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 54, "image": "Screenshot_20261022_202014.jpg", "question": "Một trong những quan điểm của Hồ Chí Minh về xây dựng đội ngũ cán bộ đảng viên là phải", "options": ["Học tập và làm theo tấm gương đạo đức của Mác - Lênin", "Phải gương mẫu trước quần chúng nhân dân", "Nghiêm chỉnh thực hiện cương lĩnh, đường lối, quan điểm, chủ trương, nghị quyết và các nguyên tắc xây dựng đảng", "Tận tụy phục vụ quần chúng nhân dân"], "correctIndex": 2, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 55, "image": "Screenshot_20261022_202016.jpg", "question": "Theo Hồ Chí Minh, công tác gốc của Đảng là gì?", "options": ["Công tác tư tưởng chính trị.", "Công tác lý luận.", "Công tác cán bộ."], "correctIndex": 2, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 56, "image": "Screenshot_20261022_202019.jpg", "question": "Trong công tác cán bộ, Hồ Chsi Minh quan niệm rằng", "options": ["Muôn việc thành công hay thất bại đều do cán bộ tốt hay kém", "Muôn việc hoạt động cách mạng thành công hoặc không thành công đều do cán bộ tốt hay kém", "Cán bộ là nòng cốt của sự nghiệp đấu tranh giải phóng dân tộc", "Cán bộ là lực lượng đấu tranh chủ yếu của cách mạng"], "correctIndex": 0, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}, {"id": 57, "image": "Screenshot_20261022_202023.jpg", "question": "Theo Hồ Chí Minh, điều gì quan trọng nhất để cán bộ, công chức thực sự phục vụ nhân dân?", "options": ["Năng lực chuyên môn cao", "Có đạo đức cách mạng trong sáng", "Thực hiện theo Điều lệ vắn tắt của Đảng", "Có nhiều kinh nghiệm thực tế"], "correctIndex": 1, "topic": "Chương 4: Đảng & Nhà nước của dân, do dân, vì dân"}];
@@ -556,6 +641,7 @@
       if (!isShuffled) return;
       generateShufflePermutations();
       currentIndex = 0;
+      saveState();
       renderApp();
     }
 
@@ -628,13 +714,39 @@
         if (savedBookmarks) bookmarks = new Set(JSON.parse(savedBookmarks));
         const savedMode = localStorage.getItem('tthcm_mode');
         if (savedMode) mode = savedMode;
+
         const savedShuffle = localStorage.getItem('tthcm_shuffle');
         if (savedShuffle === 'true') {
           isShuffled = true;
-          generateShufflePermutations();
+          const savedOrder = localStorage.getItem('tthcm_question_order');
+          const savedOptMap = localStorage.getItem('tthcm_options_shuffle_map');
+          if (savedOrder && savedOptMap) {
+            try {
+              const parsedOrder = JSON.parse(savedOrder);
+              const parsedOptMap = JSON.parse(savedOptMap);
+              if (Array.isArray(parsedOrder) && parsedOrder.length === QUESTIONS_DATA.length) {
+                questionOrder = parsedOrder;
+                optionsShuffleMap = parsedOptMap;
+              } else {
+                generateShufflePermutations();
+              }
+            } catch (err) {
+              generateShufflePermutations();
+            }
+          } else {
+            generateShufflePermutations();
+          }
         } else {
           isShuffled = false;
           resetToOriginalOrder();
+        }
+
+        const savedCurrentIdx = localStorage.getItem('tthcm_current_index');
+        if (savedCurrentIdx !== null) {
+          const parsedIdx = parseInt(savedCurrentIdx, 10);
+          if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx < QUESTIONS_DATA.length) {
+            currentIndex = parsedIdx;
+          }
         }
       } catch (e) {
         console.error('LocalStorage error:', e);
@@ -648,6 +760,14 @@
         localStorage.setItem('tthcm_bookmarks', JSON.stringify([...bookmarks]));
         localStorage.setItem('tthcm_mode', mode);
         localStorage.setItem('tthcm_shuffle', isShuffled ? 'true' : 'false');
+        localStorage.setItem('tthcm_current_index', currentIndex.toString());
+        if (isShuffled && questionOrder.length === QUESTIONS_DATA.length) {
+          localStorage.setItem('tthcm_question_order', JSON.stringify(questionOrder));
+          localStorage.setItem('tthcm_options_shuffle_map', JSON.stringify(optionsShuffleMap));
+        } else {
+          localStorage.removeItem('tthcm_question_order');
+          localStorage.removeItem('tthcm_options_shuffle_map');
+        }
       } catch (e) {
         console.error('LocalStorage save error:', e);
       }
@@ -893,6 +1013,7 @@
         btn.innerText = displayPos + 1;
         btn.onclick = () => {
           currentIndex = displayPos;
+          saveState();
           renderApp();
           // On mobile, scroll smoothly back up to the question card
           if (window.innerWidth < 1024) {
@@ -968,6 +1089,7 @@
       const newPos = currentFilteredPos + delta;
       if (newPos >= 0 && newPos < filtered.length) {
         currentIndex = filtered[newPos];
+        saveState();
         renderApp();
       }
     }
@@ -1090,7 +1212,7 @@
       const qRealIndex = questionOrder[currentIndex];
       const q = QUESTIONS_DATA[qRealIndex];
       document.getElementById('image-modal-title').innerText = `Ảnh đề gốc: Câu ID ${q.id} (${q.image})`;
-      document.getElementById('modal-img').src = `TTHCM_quiz/${q.image}`;
+      document.getElementById('modal-img').src = `./TTHCM_quiz/${q.image}`;
       document.getElementById('image-modal').classList.remove('hidden');
     }
 
@@ -1113,9 +1235,11 @@
       examTimeRemaining = 45 * 60;
       localStorage.removeItem('tthcm_user_answers');
       localStorage.removeItem('tthcm_bookmarks');
+      localStorage.removeItem('tthcm_current_index');
       closeResetModal();
       setFilter('all');
       currentIndex = 0;
+      saveState();
       renderApp();
     }
 
@@ -1135,16 +1259,183 @@
       });
     }
 
+    // Quick Search Functions (Monochrome, Zero-Color, Instant Lookup)
+    function openSearchModal() {
+      const modal = document.getElementById('search-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      const input = document.getElementById('search-input');
+      handleSearchInput(input.value || '');
+      setTimeout(() => input.focus(), 60);
+    }
+
+    function closeSearchModal() {
+      const modal = document.getElementById('search-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    function clearSearchInput() {
+      const input = document.getElementById('search-input');
+      input.value = '';
+      handleSearchInput('');
+      input.focus();
+    }
+
+    function removeVietnameseTones(str) {
+      if (!str) return '';
+      str = str.toLowerCase();
+      str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+      str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+      str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+      str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+      str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+      str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+      str = str.replace(/đ/g, "d");
+      str = str.replace(/̀|́|̃|̉|̣/g, "");
+      str = str.replace(/ˆ|̆|̛/g, "");
+      return str.trim();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function handleSearchInput(val) {
+      const query = val.trim();
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (query.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderSearchResults(query);
+    }
+
+    function renderSearchResults(query) {
+      const listContainer = document.getElementById('search-results-list');
+      const emptyState = document.getElementById('search-empty-state');
+      const countLabel = document.getElementById('search-count-label');
+      listContainer.innerHTML = '';
+
+      const letters = ['A', 'B', 'C', 'D'];
+      const normalizedQuery = removeVietnameseTones(query);
+      const queryTokens = normalizedQuery.split(/\s+/).filter(Boolean);
+
+      const matches = [];
+      questionOrder.forEach((qRealIndex, displayPos) => {
+        const q = QUESTIONS_DATA[qRealIndex];
+        let isMatch = true;
+
+        if (queryTokens.length > 0) {
+          const targetStr = removeVietnameseTones(`${q.question} ${q.topic} ${q.options.join(' ')}`);
+          isMatch = queryTokens.every(token => targetStr.includes(token));
+        }
+
+        if (isMatch) {
+          matches.push({ q, displayPos, qRealIndex });
+        }
+      });
+
+      if (matches.length === 0) {
+        emptyState.classList.remove('hidden');
+        countLabel.innerText = `0 câu hỏi khớp với "${query}"`;
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      if (queryTokens.length === 0) {
+        countLabel.innerText = `Toàn bộ ${matches.length} câu hỏi • Gõ từ khóa để lọc nhanh`;
+      } else {
+        countLabel.innerText = `Tìm thấy ${matches.length} câu hỏi phù hợp`;
+      }
+
+      matches.forEach(({ q, displayPos }) => {
+        const itemCard = document.createElement('div');
+        itemCard.className = "p-3.5 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:border-slate-400 dark:hover:border-slate-600 transition-all flex flex-col gap-2.5 sm:gap-3";
+
+        const correctLetter = letters[q.correctIndex];
+        const correctText = q.options[q.correctIndex];
+
+        itemCard.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="px-2 py-0.5 rounded-md bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold shrink-0">
+                Câu ${displayPos + 1}
+              </span>
+              <span class="text-xs text-slate-500 dark:text-slate-400 truncate">
+                ${escapeHtml(q.topic)}
+              </span>
+            </div>
+            
+            <button onclick="jumpToQuestionFromSearch(${displayPos})" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shrink-0 flex items-center gap-1 border border-slate-200 dark:border-slate-700">
+              <span>Làm câu này</span>
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          <p class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white leading-relaxed">
+            ${escapeHtml(q.question)}
+          </p>
+
+          <div class="p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100">
+            <div class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+              <svg class="w-3.5 h-3.5 text-slate-700 dark:text-slate-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Đáp án đúng (Phương án ${correctLetter})</span>
+            </div>
+            <div class="text-xs sm:text-sm font-semibold leading-relaxed">
+              ${escapeHtml(correctText)}
+            </div>
+          </div>
+        `;
+
+        listContainer.appendChild(itemCard);
+      });
+    }
+
+    function jumpToQuestionFromSearch(displayPos) {
+      closeSearchModal();
+      currentIndex = displayPos;
+      saveState();
+      renderApp();
+      if (window.innerWidth < 1024) {
+        document.getElementById('question-card').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
-      if (!document.getElementById('image-modal').classList.contains('hidden') ||
-          !document.getElementById('result-modal').classList.contains('hidden') ||
-          !document.getElementById('reset-modal').classList.contains('hidden')) {
-        if (e.key === 'Escape') {
-          closeImageModal();
-          closeResultModal();
-          closeResetModal();
-        }
+      if (e.key === 'Escape') {
+        closeImageModal();
+        closeResultModal();
+        closeResetModal();
+        closeSearchModal();
+        return;
+      }
+
+      // Global shortcut: Ctrl + K or / opens search modal
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openSearchModal();
+        return;
+      }
+      if (e.key === '/' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        openSearchModal();
+        return;
+      }
+
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
         return;
       }
 
